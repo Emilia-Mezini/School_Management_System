@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.TextField?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.school_management_system.controllers.HelloController">
+    <left>
+        <VBox prefWidth="200" spacing="15" style="-fx-background-color: #2c3e50; -fx-padding: 25;">
+            <Label text="SMS ADMIN" style = "-fx-text-fill: white; -fx-font-size: 18px; -fx-font-weight: bold;"/>
+            <Button text="Dashboard" maxWidth="Infinity"/>
+            <Button text="Students" maxWidth="Infinity"/>
+            <Button text="Courses" maxWidth="Infinity"/>
+        </VBox>
+    </left>
+
+    <center>
+        <VBox spacing="20" style="-fx-padding: 30; -fx-background-color: #ecf0f1;">
+                <Label text="Student Overview" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #34495e;"/>
+            <TableView fx:id ="studentTable" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn fx:id="idColumn" text="ID" prefWidth="100"/>
+                    <TableColumn fx:id="nameColumn" text="Student Name" prefWidth="300"/>
+                    <TableColumn fx:id="emailColumn" text=" Student Email" prefWidth="300"/>
+                </columns>
+            </TableView>
+
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <TextField fx:id="NameInput" promptText="Student Name" prefWidth="200"/>
+                <TextField fx:id="emailInput" promptText="Email" prefWidth="180"/>
+                <TextField fx:id="idInput" promptText ="ID" prefWidth="100"/>
+                <Button text="Add Student" onAction="#handleAddStudent" style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold;"/>
+            </HBox>
+        </VBox>
+    </center>
+
+    <top>
+        <HBox spacing="20" style="-fx-padding: 15; -fx-background-color: #2c3e50">
+            <Label text="School Management System" style="-fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold;"/>
+        </HBox>
+    </top>
+
+    <bottom>
+        <HBox spacing="10" style="-fx-padding: 10; -fx-background-color: #f8f9fa; -fx-border-color: #dee2e6; -fx-border-width: 1000;">
+            <Label fx:id="statusLabel" text="System Ready" style="-fx-text-fill: #7f8c8d; -fx-font-size: 12px;"/>
+        </HBox>
+    </bottom>
+</BorderPane>

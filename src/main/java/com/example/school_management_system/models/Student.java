@@ -8,7 +8,7 @@ public class Student {
     private List<Course> coursesEnrolled;
 
 
-    public Student(String name, String email,int student_id){
+    public Student(String name, String email, String student_id){
         this.name = name;
         this.email = email;
         this.student_id = student_id;
