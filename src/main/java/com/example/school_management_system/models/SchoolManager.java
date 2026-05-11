@@ -20,7 +20,7 @@ public class SchoolManager {
 
     /* Adding a new student in the database */
     public boolean addStudent(Student student){
-        if(findStudentById(student.getStudentId())== null){
+        if(findStudentById(student.getId())== null){
             allStudents.add(student);
             return true;
         }
@@ -29,7 +29,7 @@ public class SchoolManager {
 
     /* Adding a new course in the course catalog */
     public boolean addCourse(Course course ){
-        if(findCourseById(course.getCourseId())== null){
+        if(findCourseById(course.getCourseID())== null){
             allCourses.add(course);
             return true;
         }
@@ -37,9 +37,9 @@ public class SchoolManager {
     }
 
     /* Finding a students data by their id */
-    public Student findStudentById(int id){
+    public Student findStudentById(String id){
         return allStudents.stream()
-                .filter(student -> student.getStudentId() == id)
+                .filter(student -> student.getId().equals(id))
                 .findFirst()
                 .orElse(null);
     }
@@ -47,13 +47,13 @@ public class SchoolManager {
     /* Finding course data based on their id */
     public Course findCourseById( String id) {
         return allCourses.stream()
-                .filter(course -> course.getCourseId().equals(id))
+                .filter(course -> course.getCourseID().equals(id))
                 .findFirst()
                 .orElse(null);
     }
 
     /* Removing a student from the database and all the courses he/she is enrolled to */
-    public boolean removeStudent( int id){
+    public boolean removeStudent( String id){
         Student st = findStudentById(id);
         if(st!=null){
             List<Course> studentSnapshot = new ArrayList<>(st.getCoursesEnrolled());
@@ -101,7 +101,7 @@ public class SchoolManager {
     }
 
     /* Enrolling a new Student inside a course */
-    public boolean enrollStudentInCourse(String courseId,int studentId){
+    public boolean enrollStudentInCourse(String courseId,String studentId){
         Student student = findStudentById(studentId);
         Course course = findCourseById(courseId);
         if(student!=null && course!=null){
@@ -111,11 +111,15 @@ public class SchoolManager {
         return false;
     }
 
+    public List<Student> getAllStudents() {
+        return new ArrayList<>(allStudents);
+    }
+
     /* Application testing using default data */
     public void generateDefaultData(){
-        Student s1 = new Student("Emmanuel","emmanuel@gmail.com",37885);
-        Student s2 = new Student("Emma","emmakal@gmail.com",99012);
-        Student s3 = new Student("Ares","aresmanl@gmail.com",56792);
+        Student s1 = new Student("Emmanuel","emmanuel@gmail.com","37885");
+        Student s2 = new Student("Emma","emmakal@gmail.com","99012");
+        Student s3 = new Student("Ares","aresmanl@gmail.com","56792");
         addStudent(s1);
         addStudent(s2);
         addStudent(s3);
