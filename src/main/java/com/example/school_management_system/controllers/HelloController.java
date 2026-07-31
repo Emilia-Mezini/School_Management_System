@@ -58,12 +58,12 @@ public class HelloController {
     @FXML
     public void initialize() {
         studentData.setAll(schoolManager.getAllStudents());
+        courseData.setAll(schoolManager.getAllCourses());
         studentTable.setItems(studentData);
         dashboardView = mainPane.getCenter();
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
-        studentTable.setItems(studentData);
     }
 
     @FXML
@@ -79,17 +79,24 @@ public class HelloController {
         String name = NameInput.getText().trim();
         String email = emailInput.getText().trim();
         String id = idInput.getText().trim();
+
         if (name.isEmpty() || id.isEmpty() || email.isEmpty()) {
-            statusLabel.setText("Error!All fields must be filled.");
+            statusLabel.setText("Error! All fields must be filled.");
             statusLabel.setStyle("-fx-text-fill: #e74c3c;");
-        } else {
-            studentData.add(new Student(name, email, id));
+            return;
+        }
+
+        Student newStudent = new Student(name, email, id);
+        if (schoolManager.addStudent(newStudent)) {
+            studentData.add(newStudent);
             statusLabel.setText("Student: " + name + " added successfully!");
             statusLabel.setStyle("-fx-text-fill: #27ae60;");
-
             NameInput.clear();
             emailInput.clear();
             idInput.clear();
+        } else {
+            statusLabel.setText("Error: A student with ID " + id + " already exists.");
+            statusLabel.setStyle("-fx-text-fill: #e74c3c;");
         }
     }
 
@@ -107,21 +114,27 @@ public class HelloController {
         String id = courseIdInput.getText().trim();
         String title = courseTitleInput.getText().trim();
         String creditsStr = courseCreditsInput.getText().trim();
+
         if (id.isEmpty() || title.isEmpty() || creditsStr.isEmpty()) {
-            statusLabel.setText("Error! All fields must be filled");
+            statusLabel.setText("Error! All fields must be filled.");
             statusLabel.setStyle("-fx-text-fill: #e74c3c;");
             return;
         }
+
         try {
             int credits = Integer.parseInt(creditsStr);
-            courseData.add(new Course(id, title, credits));
-            statusLabel.setText("Course '" + title + "' added successfully!");
-            statusLabel.setStyle("-fx-text-fill: #27ae60;");
-            //Clear the fields
-            courseIdInput.clear();
-            courseTitleInput.clear();
-            courseCreditsInput.clear();
-
+            Course newCourse = new Course(id, title, credits);
+            if (schoolManager.addCourse(newCourse)) {
+                courseData.add(newCourse);
+                statusLabel.setText("Course '" + title + "' added successfully!");
+                statusLabel.setStyle("-fx-text-fill: #27ae60;");
+                courseIdInput.clear();
+                courseTitleInput.clear();
+                courseCreditsInput.clear();
+            } else {
+                statusLabel.setText("Error: A course with ID " + id + " already exists.");
+                statusLabel.setStyle("-fx-text-fill: #e74c3c;");
+            }
         } catch (NumberFormatException e) {
             statusLabel.setText("Error: Credits must be a valid number!");
             statusLabel.setStyle("-fx-text-fill: #e74c3c;");
@@ -132,6 +145,7 @@ public class HelloController {
     private void handleDeleteStudent() {
         Student selected = studentTable.getSelectionModel().getSelectedItem();
         if (selected != null) {
+            schoolManager.removeStudent(selected.getId());
             studentData.remove(selected);
             statusLabel.setText("Student " + selected.getName() + " is successfully deleted!");
             statusLabel.setStyle("-fx-text-fill: #27ae60;");
@@ -144,7 +158,6 @@ public class HelloController {
     @FXML
     private void handleShowCourses() {
         try {
-
             URL fxmlLocation = getClass().getResource("/com/example/school_management_system/courses-view.fxml");
             FXMLLoader loader = new FXMLLoader(fxmlLocation);
             loader.setController(this);

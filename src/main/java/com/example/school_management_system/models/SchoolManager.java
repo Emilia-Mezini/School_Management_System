@@ -115,6 +115,10 @@ public class SchoolManager {
         return new ArrayList<>(allStudents);
     }
 
+    public List<Course> getAllCourses(){
+        return new ArrayList<>(allCourses);
+    }
+
     /* Application testing using default data */
     public void generateDefaultData(){
         Student s1 = new Student("Emmanuel","emmanuel@gmail.com","37885");
