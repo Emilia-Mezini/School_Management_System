@@ -5,13 +5,7 @@ target/
 .kotlin
 
 ### IntelliJ IDEA ###
-.idea/modules.xml
-.idea/jarRepositories.xml
-.idea/compiler.xml
-.idea/libraries/
-*.iws
-*.iml
-*.ipr
+.idea
 
 ### Eclipse ###
 .apt_generated
@@ -34,6 +28,13 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### OS ###
+Thumbs.db
+Desktop.ini
+
+### Logs ###
+*.log
 
 ### Mac OS ###
 .DS_Store

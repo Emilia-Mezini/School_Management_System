@@ -10,7 +10,7 @@
 
 <BorderPane fx:id="mainPane"
         xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.example.school_management_system.controllers.HelloController"
+            fx:controller="com.example.school_management_system.controllers.MainController"
             prefWidth="1280" prefHeight="720">
 
     <left>

@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
 
-public class HelloController {
+public class MainController {
     public SchoolManager schoolManager = new SchoolManager("My School");
     private Node dashboardView;
     @FXML
