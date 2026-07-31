@@ -4,7 +4,7 @@ import java.util.List;
 public class Student {
     private String name;
     private String email;
-    private final int student_id;
+    private String student_id;
     private List<Course> coursesEnrolled;
 
 
@@ -15,7 +15,7 @@ public class Student {
         this.coursesEnrolled = new ArrayList<>();
     }
 
-    public int getStudentId(){
+    public String getId(){
         return this.student_id;
     }
 
@@ -26,7 +26,6 @@ public class Student {
     public String getEmail(){
         return this.email;
     }
-
     public List<Course> getCoursesEnrolled(){
         return this.coursesEnrolled;
     }

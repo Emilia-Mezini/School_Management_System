@@ -54,7 +54,7 @@ public class HelloController {
     private ObservableList<Student> studentData = FXCollections.observableArrayList();
     private ObservableList<Course> courseData = FXCollections.observableArrayList();
 
-    // Will automatically run after FXML is loaded
+
     @FXML
     public void initialize() {
         studentData.setAll(schoolManager.getAllStudents());
@@ -73,19 +73,17 @@ public class HelloController {
         statusLabel.setStyle("-fx-text-fill: #27ae60;");
     }
 
-    // Will run when the "Add Student" button is clicked
+
     @FXML
     protected void handleAddStudent() {
         String name = NameInput.getText().trim();
         String email = emailInput.getText().trim();
         String id = idInput.getText().trim();
         if (name.isEmpty() || id.isEmpty() || email.isEmpty()) {
-            //Error feedback status
             statusLabel.setText("Error!All fields must be filled.");
             statusLabel.setStyle("-fx-text-fill: #e74c3c;");
         } else {
             studentData.add(new Student(name, email, id));
-            //Success feedback status
             statusLabel.setText("Student: " + name + " added successfully!");
             statusLabel.setStyle("-fx-text-fill: #27ae60;");
 
@@ -103,13 +101,12 @@ public class HelloController {
         courseTable.setItems(courseData);
     }
 
-    // Will run when "Add Course" button is clicked
+
     @FXML
     protected void handleAddCourse() {
         String id = courseIdInput.getText().trim();
         String title = courseTitleInput.getText().trim();
         String creditsStr = courseCreditsInput.getText().trim();
-        // Validation check
         if (id.isEmpty() || title.isEmpty() || creditsStr.isEmpty()) {
             statusLabel.setText("Error! All fields must be filled");
             statusLabel.setStyle("-fx-text-fill: #e74c3c;");
@@ -147,7 +144,7 @@ public class HelloController {
     @FXML
     private void handleShowCourses() {
         try {
-            //System.out.println("DEBUG: The Courses button was definitely clicked!");
+
             URL fxmlLocation = getClass().getResource("/com/example/school_management_system/courses-view.fxml");
             FXMLLoader loader = new FXMLLoader(fxmlLocation);
             loader.setController(this);
@@ -193,4 +190,5 @@ public class HelloController {
         idInput.clear();
         emailInput.clear();
     }
+
 }

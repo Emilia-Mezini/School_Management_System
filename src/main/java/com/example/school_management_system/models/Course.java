@@ -2,20 +2,20 @@ package com.example.school_management_system.models;
 import java.util.ArrayList;
 import java.util.List;
 public class Course {
-    private final String course_id;
+    private final String course_ID;
     private String title;
     private int numberOfCredits;
     private List<Student> enrolledStudents;
 
-    public Course(String course_id,String title,int numberOfCredits){
-        this.course_id = course_id;
+    public Course(String course_ID, String title, int numberOfCredits){
+        this.course_ID = course_ID;
         this.title = title;
         this.numberOfCredits = numberOfCredits;
         enrolledStudents = new ArrayList<>();
     }
 
-    public String getCourseId(){
-        return this.course_id;
+    public String getCourseID(){
+        return this.course_ID;
     }
 
     public String getTitle(){
