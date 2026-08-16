@@ -144,14 +144,26 @@ public class MainController {
     @FXML
     private void handleDeleteStudent() {
         Student selected = studentTable.getSelectionModel().getSelectedItem();
-        if (selected != null) {
-            schoolManager.removeStudent(selected.getId());
-            studentData.remove(selected);
-            statusLabel.setText("Student " + selected.getName() + " is successfully deleted!");
-            statusLabel.setStyle("-fx-text-fill: #27ae60;");
-        } else {
+        if (selected == null) {
             statusLabel.setText("Error: No student selected to delete!");
             statusLabel.setStyle("-fx-text-fill: #e74c3c;");
+            return;
+        }
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Delete Confirmation");
+        alert.setHeaderText("You are about to delete " + selected.getName());
+        alert.setContentText("Are you sure you want to delete this student? This action cannot be undone.");
+        Optional<ButtonType> result = alert.showAndWait();
+
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            schoolManager.removeStudent(selected.getId());
+            studentData.remove(selected);
+            statusLabel.setText("Student " + selected.getName() + " deleted successfully.");
+            statusLabel.setStyle("-fx-text-fill: #27ae60;");
+        } else {
+            statusLabel.setText("Deletion cancelled.");
+            statusLabel.setStyle("-fx-text-fill: #34495e;");
         }
     }
 

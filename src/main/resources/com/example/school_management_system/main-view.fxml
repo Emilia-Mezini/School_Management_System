@@ -30,7 +30,7 @@
                 <columns>
                     <TableColumn fx:id="idColumn" text="ID" prefWidth="100"/>
                     <TableColumn fx:id="nameColumn" text="Student Name" prefWidth="300"/>
-                    <TableColumn fx:id="emailColumn" text=" Student Email" prefWidth="400"/>
+                    <TableColumn fx:id="emailColumn" text="Student Email" prefWidth="400"/>
                 </columns>
             </TableView>
 
