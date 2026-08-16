@@ -1,4 +1,4 @@
-package com.example.school_management_system.models;
+package com;
 import java.util.ArrayList;
 import java.util.List;
 public class Course {

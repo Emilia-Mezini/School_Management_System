@@ -1,7 +1,7 @@
 package com.example.school_management_system.controllers;
-import com.example.school_management_system.models.Course;
-import com.example.school_management_system.models.SchoolManager;
-import com.example.school_management_system.models.Student;
+import com.Course;
+import com.SchoolManager;
+import com.Student;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;

@@ -1,4 +1,4 @@
-package com.example.school_management_system.models;
+package com;
 import java.util.List;
 import java.util.ArrayList;
 
