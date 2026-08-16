@@ -2,20 +2,20 @@ package com;
 import java.util.ArrayList;
 import java.util.List;
 public class Course {
-    private final String course_ID;
+    private final String courseId;
     private String title;
     private int numberOfCredits;
     private List<Student> enrolledStudents;
 
-    public Course(String course_ID, String title, int numberOfCredits){
-        this.course_ID = course_ID;
+    public Course(String courseId, String title, int numberOfCredits){
+        this.courseId = courseId;
         this.title = title;
         this.numberOfCredits = numberOfCredits;
         enrolledStudents = new ArrayList<>();
     }
 
     public String getCourseID(){
-        return this.course_ID;
+        return this.courseId;
     }
 
     public String getTitle(){

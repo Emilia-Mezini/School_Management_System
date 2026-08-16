@@ -36,7 +36,7 @@
 
             <HBox spacing="10" alignment="CENTER_LEFT">
                 <TextField fx:id="idInput" promptText ="ID" prefWidth="100"/>
-                <TextField fx:id="NameInput" promptText="Student Name" prefWidth="200"/>
+                <TextField fx:id="nameInput" promptText="Student Name" prefWidth="200"/>
                 <TextField fx:id="emailInput" promptText="Email" prefWidth="180"/>
                 <Button text="Add Student" onAction="#handleAddStudent" style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold;"/>
                 <Button text="Delete Selected" onAction="#handleDeleteStudent" style="-fx-background-color: #e74c3c; -fx-text-fill: white;"/>

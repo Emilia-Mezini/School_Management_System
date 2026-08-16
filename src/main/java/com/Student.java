@@ -4,19 +4,19 @@ import java.util.List;
 public class Student {
     private String name;
     private String email;
-    private String student_id;
+    private String studentId;
     private List<Course> coursesEnrolled;
 
 
-    public Student(String name, String email, String student_id){
+    public Student(String name, String email, String studentId){
         this.name = name;
         this.email = email;
-        this.student_id = student_id;
+        this.studentId = studentId;
         this.coursesEnrolled = new ArrayList<>();
     }
 
     public String getId(){
-        return this.student_id;
+        return this.studentId;
     }
 
     public String getName(){
@@ -66,7 +66,7 @@ public class Student {
 
     @Override
     public String toString(){
-        return name + " (ID:" + student_id + ")";
+        return name + " (ID:" + studentId + ")";
     }
 
 }

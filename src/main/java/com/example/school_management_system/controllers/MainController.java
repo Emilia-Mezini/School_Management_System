@@ -27,7 +27,7 @@ public class MainController {
     @FXML
     private TableColumn<Student, String> emailColumn;
     @FXML
-    private TextField NameInput;
+    private TextField nameInput;
     @FXML
     private TextField idInput;
     @FXML
@@ -76,7 +76,7 @@ public class MainController {
 
     @FXML
     protected void handleAddStudent() {
-        String name = NameInput.getText().trim();
+        String name = nameInput.getText().trim();
         String email = emailInput.getText().trim();
         String id = idInput.getText().trim();
 
@@ -91,7 +91,7 @@ public class MainController {
             studentData.add(newStudent);
             statusLabel.setText("Student: " + name + " added successfully!");
             statusLabel.setStyle("-fx-text-fill: #27ae60;");
-            NameInput.clear();
+            nameInput.clear();
             emailInput.clear();
             idInput.clear();
         } else {
@@ -211,7 +211,7 @@ public class MainController {
 
     @FXML
     private void cleanStudentInput() {
-        NameInput.clear();
+        nameInput.clear();
         idInput.clear();
         emailInput.clear();
     }
