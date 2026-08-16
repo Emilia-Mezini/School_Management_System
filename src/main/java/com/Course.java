@@ -26,7 +26,7 @@ public class Course {
         return this.numberOfCredits;
     }
 
-    public List<Student> getEnrolledStudents(){ return this.enrolledStudents; }
+    public List<Student> getEnrolledStudents(){ return new ArrayList<>(this.enrolledStudents); }
 
     /* Courses name can be updated in the future*/
     public void setTitle(String title){

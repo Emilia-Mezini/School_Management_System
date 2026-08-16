@@ -27,7 +27,7 @@ public class Student {
         return this.email;
     }
     public List<Course> getCoursesEnrolled(){
-        return this.coursesEnrolled;
+        return new ArrayList<>(this.coursesEnrolled);
     }
 
     /* A Student might change his/her email */
