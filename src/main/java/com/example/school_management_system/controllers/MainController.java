@@ -179,20 +179,20 @@ public class MainController {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Delete Confirmation");
             alert.setHeaderText("You are about to delete " + selectedCourse.getTitle());
-            alert.setContentText("Are you sure you want to delete this student? This action cannot be undone.");
+            alert.setContentText("Are you sure you want to delete this course? This action cannot be undone.");
             Optional<ButtonType> result = alert.showAndWait();
             if (result.isPresent() && result.get() == ButtonType.OK) {
 
                 courseData.remove(selectedCourse); // Update UI
                 schoolManager.removeCourse(selectedCourse.getCourseID()); // Update Manager logic
-                statusLabel.setText("Student deleted successfully.");
+                statusLabel.setText("Course deleted successfully.");
                 statusLabel.setStyle("-fx-text-fill: #27ae60;");
             } else {
                 statusLabel.setText("Deletion cancelled.");
                 statusLabel.setStyle("-fx-text-fill: #34495e;");
             }
         } else {
-            statusLabel.setText("Error: Please select a student first!");
+            statusLabel.setText("Error: Please select a course first!");
             statusLabel.setStyle("-fx-text-fill: #e74c3c;");
         }
     }
