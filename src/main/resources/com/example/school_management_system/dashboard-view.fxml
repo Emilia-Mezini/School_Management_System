@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="20" style="-fx-padding: 30; -fx-background-color: #ecf0f1;"
+      VBox.vgrow="ALWAYS" xmlns:fx="http://javafx.com/fxml"
+      xmlns="http://javafx.com/javafx/17">
+
+    <Label text="Enrollment Dashboard"
+           style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #34495e;"/>
+
+    <HBox spacing="15">
+        <VBox spacing="5" alignment="CENTER" HBox.hgrow="ALWAYS"
+              style="-fx-padding: 20; -fx-background-color: white; -fx-background-radius: 8; -fx-border-color: #bdc3c7; -fx-border-radius: 8;">
+            <Label fx:id="totalStudentsLabel" text="0"
+                   style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #2980b9;"/>
+            <Label text="Total Students" style="-fx-text-fill: #7f8c8d; -fx-font-size: 12px;"/>
+        </VBox>
+        <VBox spacing="5" alignment="CENTER" HBox.hgrow="ALWAYS"
+              style="-fx-padding: 20; -fx-background-color: white; -fx-background-radius: 8; -fx-border-color: #bdc3c7; -fx-border-radius: 8;">
+            <Label fx:id="totalCoursesLabel" text="0"
+                   style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #16a085;"/>
+            <Label text="Total Courses" style="-fx-text-fill: #7f8c8d; -fx-font-size: 12px;"/>
+        </VBox>
+        <VBox spacing="5" alignment="CENTER" HBox.hgrow="ALWAYS"
+              style="-fx-padding: 20; -fx-background-color: white; -fx-background-radius: 8; -fx-border-color: #bdc3c7; -fx-border-radius: 8;">
+            <Label fx:id="enrolledStudentsLabel" text="0"
+                   style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #27ae60;"/>
+            <Label text="Enrolled Students" style="-fx-text-fill: #7f8c8d; -fx-font-size: 12px;"/>
+        </VBox>
+        <VBox spacing="5" alignment="CENTER" HBox.hgrow="ALWAYS"
+              style="-fx-padding: 20; -fx-background-color: white; -fx-background-radius: 8; -fx-border-color: #bdc3c7; -fx-border-radius: 8;">
+            <Label fx:id="notEnrolledLabel" text="0"
+                   style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #e67e22;"/>
+            <Label text="Not Enrolled" style="-fx-text-fill: #7f8c8d; -fx-font-size: 12px;"/>
+        </VBox>
+    </HBox>
+
+    <Label text="Course Enrollment Breakdown (most popular first)"
+           style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #34495e;"/>
+    <TableView fx:id="breakdownTable" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn fx:id="breakdownCourseColumn" text="Course" prefWidth="400"/>
+            <TableColumn fx:id="breakdownIdColumn" text="Course ID" prefWidth="150"/>
+            <TableColumn fx:id="breakdownCountColumn" text="Students Enrolled" prefWidth="200"/>
+        </columns>
+        <placeholder>
+            <Label text="No courses yet. Add some from the Courses view."
+                   style="-fx-text-fill: #7f8c8d; -fx-font-style: italic;"/>
+        </placeholder>
+    </TableView>
+
+    <Label text="Students Not Enrolled in Any Course"
+           style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #34495e;"/>
+    <ListView fx:id="notEnrolledList" prefHeight="150" maxHeight="150"/>
+</VBox>

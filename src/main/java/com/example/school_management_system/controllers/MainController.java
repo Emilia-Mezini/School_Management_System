@@ -13,6 +13,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Optional;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -64,13 +66,27 @@ public class MainController {
     @FXML private TableColumn<EnrollmentRow, String> enrollmentCourseTitleColumn;
     @FXML private TableColumn<EnrollmentRow, String> enrollmentCourseIdColumn;
     @FXML private TableColumn<EnrollmentRow, Number> enrollmentCreditsColumn;
+    @FXML private Label totalStudentsLabel;
+    @FXML private Label totalCoursesLabel;
+    @FXML private Label enrolledStudentsLabel;
+    @FXML private Label notEnrolledLabel;
+    @FXML private TableView<DashboardCourseRow> breakdownTable;
+    @FXML private TableColumn<DashboardCourseRow, String> breakdownCourseColumn;
+    @FXML private TableColumn<DashboardCourseRow, String> breakdownIdColumn;
+    @FXML private TableColumn<DashboardCourseRow, Integer> breakdownCountColumn;
+    @FXML private ListView<Student> notEnrolledList;
 
     private final ObservableList<EnrollmentRow> enrollmentData = FXCollections.observableArrayList();
     private ObservableList<Student> studentData = FXCollections.observableArrayList();
     private ObservableList<Course> courseData = FXCollections.observableArrayList();
-    public record EnrollmentRow(String studentName, String studentId, String courseTitle, String courseId, int credits) {}
+    private javafx.scene.Node studentsView;
+    private boolean initialized = false;
 
     public void initialize() {
+        if (initialized) {
+            return;
+        }
+        initialized = true;
         studentTable.setItems(studentData);
         studentTable.setPlaceholder(new Label("No students yet. Add one using the form below."));
         dashboardView = mainPane.getCenter();
@@ -86,35 +102,36 @@ public class MainController {
                         studentData, courseData
                 )
         );
+        this.studentsView = mainPane.getCenter();
     }
 
-    /**
-     * Injects the SchoolManager instance for the UI to operate on.
-     * Called by SchoolManagementApp after the FXML is loaded, either with a
-     * fresh empty manager or one hydrated from the save file.
-     * Populates the observable lists so the tables reflect current state.
-     */
     public void setSchoolManager(SchoolManager schoolManager) {
         this.schoolManager = schoolManager;
         studentData.setAll(schoolManager.getAllStudents());
         courseData.setAll(schoolManager.getAllCourses());
     }
 
-    /**
-     * Provides the current SchoolManager so the app can persist its state
-     * on close.
-     */
     public SchoolManager getSchoolManager() {
         return schoolManager;
     }
 
     @FXML
     private void handleShowDashboard() {
-        mainPane.setCenter(dashboardView);
-        statusLabel.setText("Navigation: Student Dashboard");
-        statusLabel.setStyle("-fx-text-fill: #27ae60;");
+        try {
+            URL fxmlLocation = getClass().getResource("/com/example/school_management_system/dashboard-view.fxml");
+            FXMLLoader loader = new FXMLLoader(fxmlLocation);
+            loader.setController(this);
+            VBox dashboardView = loader.load();
+            setupDashboardView();
+            mainPane.setCenter(dashboardView);
+            statusLabel.setText("Navigation: Dashboard");
+            statusLabel.setStyle("-fx-text-fill: #27ae60;");
+        } catch (IOException e) {
+            statusLabel.setText("Error: Could not load Dashboard view!");
+            statusLabel.setStyle("-fx-text-fill: #e74c3c;");
+            e.printStackTrace();
+        }
     }
-
 
     @FXML
     protected void handleAddStudent() {
@@ -354,4 +371,48 @@ public class MainController {
             }
         }
     }
+
+    private void setupDashboardView() {
+        var allStudents = schoolManager.getAllStudents();
+        var allCourses = schoolManager.getAllCourses();
+
+        long enrolledCount = allStudents.stream()
+                .filter(s -> !s.getCoursesEnrolled().isEmpty())
+                .count();
+        long notEnrolledCount = allStudents.size() - enrolledCount;
+
+        totalStudentsLabel.setText(String.valueOf(allStudents.size()));
+        totalCoursesLabel.setText(String.valueOf(allCourses.size()));
+        enrolledStudentsLabel.setText(String.valueOf(enrolledCount));
+        notEnrolledLabel.setText(String.valueOf(notEnrolledCount));
+
+        breakdownCourseColumn.setCellValueFactory(cell ->
+                new SimpleStringProperty(cell.getValue().courseTitle()));
+        breakdownIdColumn.setCellValueFactory(cell ->
+                new SimpleStringProperty(cell.getValue().courseId()));
+        breakdownCountColumn.setCellValueFactory(cell ->
+                new SimpleIntegerProperty(cell.getValue().studentCount()).asObject());
+
+        List<DashboardCourseRow> rows = allCourses.stream()
+                .map(c -> new DashboardCourseRow(c.getTitle(), c.getCourseID(), c.getEnrolledStudents().size()))
+                .sorted(Comparator.comparingInt(DashboardCourseRow::studentCount).reversed())
+                .toList();
+        breakdownTable.setItems(FXCollections.observableArrayList(rows));
+
+        List<Student> notEnrolled = allStudents.stream()
+                .filter(s -> s.getCoursesEnrolled().isEmpty())
+                .toList();
+        notEnrolledList.setItems(FXCollections.observableArrayList(notEnrolled));
+        notEnrolledList.setPlaceholder(new Label("All students are enrolled in at least one course."));
+    }
+
+    @FXML
+    private void handleShowStudents() {
+        mainPane.setCenter(studentsView);
+        statusLabel.setText("Navigation: Students");
+        statusLabel.setStyle("-fx-text-fill: #27ae60;");
+    }
+
+    public record EnrollmentRow(String studentName, String studentId, String courseTitle, String courseId, int credits) {}
+    public record DashboardCourseRow(String courseTitle, String courseId, int studentCount) {}
 }
