@@ -16,7 +16,7 @@ import java.net.URL;
 import java.util.Optional;
 
 public class MainController {
-    public SchoolManager schoolManager = new SchoolManager("My School");
+    private SchoolManager schoolManager;
     private Node dashboardView;
     @FXML
     private TableView<Student> studentTable;
@@ -54,16 +54,32 @@ public class MainController {
     private ObservableList<Student> studentData = FXCollections.observableArrayList();
     private ObservableList<Course> courseData = FXCollections.observableArrayList();
 
-
     @FXML
     public void initialize() {
-        studentData.setAll(schoolManager.getAllStudents());
-        courseData.setAll(schoolManager.getAllCourses());
         studentTable.setItems(studentData);
         dashboardView = mainPane.getCenter();
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
+    }
+    /**
+     * Injects the SchoolManager instance for the UI to operate on.
+     * Called by SchoolManagementApp after the FXML is loaded, either with a
+     * fresh empty manager or one hydrated from the save file.
+     * Populates the observable lists so the tables reflect current state.
+     */
+    public void setSchoolManager(SchoolManager schoolManager) {
+        this.schoolManager = schoolManager;
+        studentData.setAll(schoolManager.getAllStudents());
+        courseData.setAll(schoolManager.getAllCourses());
+    }
+
+    /**
+     * Provides the current SchoolManager so the app can persist its state
+     * on close.
+     */
+    public SchoolManager getSchoolManager() {
+        return schoolManager;
     }
 
     @FXML
