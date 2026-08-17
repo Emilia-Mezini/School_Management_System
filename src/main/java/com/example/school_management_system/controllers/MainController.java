@@ -14,10 +14,13 @@ import javafx.scene.layout.VBox;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
+import javafx.beans.binding.Bindings;
 
 public class MainController {
     private SchoolManager schoolManager;
     private Node dashboardView;
+    @FXML
+    private Label countsLabel;
     @FXML
     private TableView<Student> studentTable;
     @FXML
@@ -57,11 +60,22 @@ public class MainController {
     @FXML
     public void initialize() {
         studentTable.setItems(studentData);
+        studentTable.setPlaceholder(new Label("No students yet. Add one using the form below."));
         dashboardView = mainPane.getCenter();
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
+
+        countsLabel.textProperty().bind(
+                Bindings.createStringBinding(
+                        () -> pluralize(studentData.size(), "student", "students")
+                                + " · "
+                                + pluralize(courseData.size(), "course", "courses"),
+                        studentData, courseData
+                )
+        );
     }
+
     /**
      * Injects the SchoolManager instance for the UI to operate on.
      * Called by SchoolManagementApp after the FXML is loaded, either with a
@@ -122,6 +136,7 @@ public class MainController {
         title.setCellValueFactory(new PropertyValueFactory<>("title"));
         numberOfCredits.setCellValueFactory(new PropertyValueFactory<>("numberOfCredits"));
         courseTable.setItems(courseData);
+        courseTable.setPlaceholder(new Label("No courses yet. Add one using the form below."));
     }
 
 
@@ -230,6 +245,10 @@ public class MainController {
         nameInput.clear();
         idInput.clear();
         emailInput.clear();
+    }
+
+    private static String pluralize(int count, String singular, String plural) {
+        return count + " " + (count == 1 ? singular : plural);
     }
 
 }
