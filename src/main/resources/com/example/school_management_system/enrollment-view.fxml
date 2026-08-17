@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="20" style="-fx-padding: 30; -fx-background-color: #ecf0f1;"
+      VBox.vgrow="ALWAYS" xmlns:fx="http://javafx.com/fxml">
+
+    <Label text="Enrollment Management"
+           style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #34495e;"/>
+
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Label text="Student:" style="-fx-font-weight: bold;"/>
+        <ComboBox fx:id="studentComboBox" prefWidth="250" promptText="Select a student"/>
+        <Label text="Course:" style="-fx-font-weight: bold;"/>
+        <ComboBox fx:id="courseComboBox" prefWidth="250" promptText="Select a course"/>
+        <Button text="Enroll" onAction="#handleEnroll"
+                style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold;"/>
+    </HBox>
+
+    <Label text="Current Enrollments"
+           style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #34495e;"/>
+
+    <TableView fx:id="enrollmentTable" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn fx:id="enrollmentStudentNameColumn" text="Student Name" prefWidth="200"/>
+            <TableColumn fx:id="enrollmentStudentIdColumn" text="Student ID" prefWidth="120"/>
+            <TableColumn fx:id="enrollmentCourseTitleColumn" text="Course" prefWidth="300"/>
+            <TableColumn fx:id="enrollmentCourseIdColumn" text="Course ID" prefWidth="120"/>
+            <TableColumn fx:id="enrollmentCreditsColumn" text="Credits" prefWidth="80"/>
+        </columns>
+    </TableView>
+
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Button text="Unenroll Selected" onAction="#handleUnenroll"
+                style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold;"/>
+        <Label text="Select an enrollment above to unenroll."
+               style="-fx-text-fill: #7f8c8d; -fx-font-style: italic;"/>
+    </HBox>
+</VBox>

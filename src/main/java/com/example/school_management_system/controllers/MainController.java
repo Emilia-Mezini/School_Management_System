@@ -15,6 +15,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
 import javafx.beans.binding.Bindings;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.scene.control.ComboBox;
 
 public class MainController {
     private SchoolManager schoolManager;
@@ -53,11 +56,20 @@ public class MainController {
     private TextField courseTitleInput;
     @FXML
     private TextField courseCreditsInput;
+    @FXML private ComboBox<Student> studentComboBox;
+    @FXML private ComboBox<Course> courseComboBox;
+    @FXML private TableView<EnrollmentRow> enrollmentTable;
+    @FXML private TableColumn<EnrollmentRow, String> enrollmentStudentNameColumn;
+    @FXML private TableColumn<EnrollmentRow, String> enrollmentStudentIdColumn;
+    @FXML private TableColumn<EnrollmentRow, String> enrollmentCourseTitleColumn;
+    @FXML private TableColumn<EnrollmentRow, String> enrollmentCourseIdColumn;
+    @FXML private TableColumn<EnrollmentRow, Number> enrollmentCreditsColumn;
 
+    private final ObservableList<EnrollmentRow> enrollmentData = FXCollections.observableArrayList();
     private ObservableList<Student> studentData = FXCollections.observableArrayList();
     private ObservableList<Course> courseData = FXCollections.observableArrayList();
+    public record EnrollmentRow(String studentName, String studentId, String courseTitle, String courseId, int credits) {}
 
-    @FXML
     public void initialize() {
         studentTable.setItems(studentData);
         studentTable.setPlaceholder(new Label("No students yet. Add one using the form below."));
@@ -251,4 +263,95 @@ public class MainController {
         return count + " " + (count == 1 ? singular : plural);
     }
 
+    @FXML
+    private void handleShowEnrollments() {
+        try {
+            URL fxmlLocation = getClass().getResource("/com/example/school_management_system/enrollment-view.fxml");
+            FXMLLoader loader = new FXMLLoader(fxmlLocation);
+            loader.setController(this);
+            VBox enrollmentView = loader.load();
+            setupEnrollmentView();
+            mainPane.setCenter(enrollmentView);
+            statusLabel.setText("Navigation: Enrollment Management");
+            statusLabel.setStyle("-fx-text-fill: #27ae60;");
+        } catch (IOException e) {
+            statusLabel.setText("Error: Could not load Enrollment view!");
+            statusLabel.setStyle("-fx-text-fill: #e74c3c;");
+            e.printStackTrace();
+        }
+    }
+
+    private void setupEnrollmentView() {
+        studentComboBox.setItems(FXCollections.observableArrayList(schoolManager.getAllStudents()));
+        courseComboBox.setItems(FXCollections.observableArrayList(schoolManager.getAllCourses()));
+
+        enrollmentStudentNameColumn.setCellValueFactory(cd -> new SimpleStringProperty(cd.getValue().studentName()));
+        enrollmentStudentIdColumn.setCellValueFactory(cd -> new SimpleStringProperty(cd.getValue().studentId()));
+        enrollmentCourseTitleColumn.setCellValueFactory(cd -> new SimpleStringProperty(cd.getValue().courseTitle()));
+        enrollmentCourseIdColumn.setCellValueFactory(cd -> new SimpleStringProperty(cd.getValue().courseId()));
+        enrollmentCreditsColumn.setCellValueFactory(cd -> new SimpleIntegerProperty(cd.getValue().credits()));
+
+        enrollmentTable.setItems(enrollmentData);
+        enrollmentTable.setPlaceholder(new Label("No enrollments yet. Select a student and a course above and click Enroll."));
+
+        refreshEnrollmentData();
+    }
+
+    @FXML
+    private void handleEnroll() {
+        Student selectedStudent = studentComboBox.getSelectionModel().getSelectedItem();
+        Course selectedCourse = courseComboBox.getSelectionModel().getSelectedItem();
+
+        if (selectedStudent == null || selectedCourse == null) {
+            statusLabel.setText("Error: Please select both a student and a course.");
+            statusLabel.setStyle("-fx-text-fill: #e74c3c;");
+            return;
+        }
+
+        if (selectedStudent.isEnrolled(selectedCourse)) {
+            statusLabel.setText("Error: " + selectedStudent.getName()
+                    + " is already enrolled in " + selectedCourse.getTitle() + ".");
+            statusLabel.setStyle("-fx-text-fill: #e74c3c;");
+            return;
+        }
+
+        selectedStudent.enroll(selectedCourse);
+        refreshEnrollmentData();
+        statusLabel.setText(selectedStudent.getName() + " enrolled in " + selectedCourse.getTitle() + ".");
+        statusLabel.setStyle("-fx-text-fill: #27ae60;");
+    }
+
+    @FXML
+    private void handleUnenroll() {
+        EnrollmentRow selected = enrollmentTable.getSelectionModel().getSelectedItem();
+        if (selected == null) {
+            statusLabel.setText("Error: Please select an enrollment to remove.");
+            statusLabel.setStyle("-fx-text-fill: #e74c3c;");
+            return;
+        }
+
+        Student student = schoolManager.findStudentById(selected.studentId());
+        Course course = schoolManager.findCourseById(selected.courseId());
+        if (student != null && course != null) {
+            student.unenroll(course);
+            refreshEnrollmentData();
+            statusLabel.setText(student.getName() + " unenrolled from " + course.getTitle() + ".");
+            statusLabel.setStyle("-fx-text-fill: #27ae60;");
+        }
+    }
+
+    private void refreshEnrollmentData() {
+        enrollmentData.clear();
+        for (Student student : schoolManager.getAllStudents()) {
+            for (Course course : student.getCoursesEnrolled()) {
+                enrollmentData.add(new EnrollmentRow(
+                        student.getName(),
+                        student.getId(),
+                        course.getTitle(),
+                        course.getCourseID(),
+                        course.getNumberOfCredits()
+                ));
+            }
+        }
+    }
 }

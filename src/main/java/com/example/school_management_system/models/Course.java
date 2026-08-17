@@ -61,4 +61,9 @@ public class Course {
         }
         return sb.toString();
     }
+
+    @Override
+    public String toString(){
+        return courseId + ": " + title;
+    }
 }
