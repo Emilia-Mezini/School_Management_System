@@ -11,7 +11,6 @@ public class SchoolManager {
         allCourses = new ArrayList<>();
         allStudents = new ArrayList<>();
         this.schoolName = schoolName;
-        generateDefaultData();
     }
 
     public String getSchoolName(){
@@ -119,22 +118,4 @@ public class SchoolManager {
         return new ArrayList<>(allCourses);
     }
 
-    /* Application testing using default data */
-    public void generateDefaultData(){
-        Student s1 = new Student("Emmanuel","emmanuel@gmail.com","37885");
-        Student s2 = new Student("Emma","emmakal@gmail.com","99012");
-        Student s3 = new Student("Ares","aresmanl@gmail.com","56792");
-        addStudent(s1);
-        addStudent(s2);
-        addStudent(s3);
-        Course cs1 = new Course("PRJ101","Programming in Java",8);
-        Course cs2 = new Course("MA202","Mathematics2",7);
-        addCourse(cs1);
-        addCourse(cs2);
-        s1.enroll(cs1);
-        s1.enroll(cs2);
-        s2.enroll(cs1);
-        s3.enroll(cs2);
-        s3.enroll(cs1);
-    }
 }
