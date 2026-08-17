@@ -1,6 +1,6 @@
 package com.example.school_management_system.models;
-import com.Course;
-import com.Student;
+import com.example.school_management_system.models.Course;
+import com.example.school_management_system.models.Student;
 import org.junit.jupiter.api.Test;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;

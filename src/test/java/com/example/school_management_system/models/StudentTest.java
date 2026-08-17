@@ -1,4 +1,4 @@
-package com;
+package com.example.school_management_system.models;
 
 import org.junit.jupiter.api.Test;
 
