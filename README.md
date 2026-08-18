@@ -81,7 +81,10 @@ School_Management_System/
 ├── README.md
 ├── LICENSE
 ├── docs/
-│   └── screenshots/
+│   ├── dashboard.png
+│   ├── students.png
+│   ├── courses.png
+│   └── enrollment.png
 ├── src/
 │   ├── main/
 │   │   ├── java/
@@ -128,12 +131,20 @@ You do not need to install JavaFX separately. Maven pulls the JavaFX 21.0.6 modu
 ### Clone and run
 
 ```bash
-git clone https://github.com/YOUR-GITHUB-USERNAME/School_Management_System.git
+git clone https://github.com/Emilia-Mezini/School_Management_System.git
 cd School_Management_System
 mvn clean javafx:run
 ```
 
 The application window opens on the Students view by default. Use the sidebar on the left to switch between Dashboard, Students, Courses, and Enrollment.
+
+### Running the tests
+
+```bash
+mvn test
+```
+
+Twelve unit tests cover the domain layer (Student and Course behavior, enrollment consistency) and the persistence layer (round-trip serialization, mapper correctness, empty state handling, JSON file read and write via `@TempDir`).
 
 ## Data Persistence
 
@@ -166,5 +177,7 @@ These are conscious scope choices for a personal learning project, not oversight
 
 * **Single-user desktop application.** No multi-user support and no concurrent access. Running two instances against the same JSON file would cause the last save to overwrite the other.
 * **No authentication or user roles.** Anyone with access to the machine can view or modify all data.
-* **Save on exit only.** If the application crashes before a clean shutdown, changes made since the last successful save are lost.
 
+## Author
+
+Built by Emilia Mezini, computer science student at OTH Regensburg. Reach me on [LinkedIn](https://www.linkedin.com/in/emilia-mezini).
