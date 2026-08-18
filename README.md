@@ -5,16 +5,16 @@ A desktop application for administering students, courses, and enrollments at a 
 ## Screenshots
 
 ### Dashboard
-![Dashboard](docs/screenshots/dashboard.png)
+![Dashboard](docs/dashboard.png)
 
 ### Students
-![Students](docs/screenshots/students.png)
+![Students](docs/students.png)
 
 ### Courses
-![Courses](docs/screenshots/courses.png)
+![Courses](docs/courses.png)
 
 ### Enrollment
-![Enrollment](docs/screenshots/enrollment.png)
+![Enrollment](docs/enrollment.png)
 
 ## Features
 
