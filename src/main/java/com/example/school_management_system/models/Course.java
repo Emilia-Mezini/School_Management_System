@@ -53,15 +53,6 @@ public class Course {
         }
     }
 
-    /* We would like to print out the names of the course participants */
-    public String printParticipantsNames(){
-        StringBuilder sb = new StringBuilder();
-        for( Student student: enrolledStudents ){
-            sb.append(student.getName()).append(",");
-        }
-        return sb.toString();
-    }
-
     @Override
     public String toString(){
         return courseId + ": " + title;

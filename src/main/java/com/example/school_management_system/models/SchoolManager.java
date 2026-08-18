@@ -90,15 +90,6 @@ public class SchoolManager {
         return allCourses.size();
     }
 
-    /* Return the list of students enrolled based on the entered course */
-    public List<Student> getAllStudentsInCourse (String courseId){
-        Course course = findCourseById(courseId);
-        if(course!= null){
-            return course.getEnrolledStudents();
-        }
-        return new ArrayList<>();
-    }
-
     /* Enrolling a new Student inside a course */
     public boolean enrollStudentInCourse(String courseId,String studentId){
         Student student = findStudentById(studentId);
